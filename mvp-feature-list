@@ -1,0 +1,278 @@
+🚀 MVP Feature List (Ranked by Impact)
+1️⃣ Gmail Sidebar: “Today’s Email Clarity Panel”
+
+Your core product. Always visible on the right side of Gmail.
+
+Sections inside the sidebar:
+
+Top Summary Bar:
+- Important emails today (count)
+- Emails waiting for your response (count)
+- Noise filtered (count)
+Important Today (3–5 items)
+- Emails you must see
+- Rank by urgency / sender importance
+- Preview snippet
+- Click → opens thread in Gmail
+Follow-Ups Needed
+- Emails where you owe a reply
+- Emails where someone owes you a reply (optional)
+- Automatic detection via sent messages
+Noise Summary
+- Newsletter/promotions grouped
+- One-click “Archive All Noise”
+
+Why this is MVP-critical:
+This is your at-a-glance clarity experience — your flagship feature.
+
+2️⃣ Email Processing Engine (Backend)
+Lightweight but powerful rules + AI.
+
+Core responsibilities:
+
+Identify important vs non-important emails
+
+Detect follow-ups
+
+Recognize “noise” (ads, promos, bulk)
+
+Categorize each email into:
+
+Important
+
+Requires Response
+
+Noise
+
+FYI
+
+Classification method:
+
+Rules first (fast & reliable)
+
+AI LLM for nuance (urgency, request detection)
+
+Store decisions in DB
+
+3️⃣ Morning Digest (Delivered via Email + Sidebar)
+
+A simple, beautiful daily summary at 7–9 AM.
+
+Content:
+
+5 most important emails
+
+Follow-up list
+
+Missed important emails from yesterday
+
+Noise cleared
+
+Quick actions: open, archive, reply
+
+Why:
+
+Creates daily habit → retention machine → delightful.
+
+4️⃣ Follow-Up Detection Engine
+
+This is the “painkiller” engine.
+
+Detect:
+
+Emails you sent that haven’t been replied to
+
+Emails where someone asked for something
+
+Threads where you promised something
+
+Deadlines mentioned in emails
+
+“Can you…?”, “Let me know…”, “Please review…”
+
+Output:
+
+A clean follow-up checklist in the sidebar + digest.
+
+5️⃣ Noise Filtering (Safe Version)
+
+Not aggressive. Not auto-deleting. Just “smart grouping.”
+
+Features:
+
+Group newsletters & promotions
+
+Group CC-only threads
+
+Group automated notifications
+
+“Archive All Noise” (one click)
+
+Why:
+
+People hate email tools that over-filter.
+This gives clarity without risk.
+
+6️⃣ Gmail Chrome Extension (Manifest v3)
+
+Injects the UI into Gmail.
+
+Features:
+
+Right-side panel
+
+Collapse/expand
+
+Works on inbox + thread view
+
+Opens Gmail threads in new tab or same tab
+
+OAuth permission handshake
+
+This is the entire delivery surface for MVP.
+
+7️⃣ OAuth Sign-In with Google (Read-Only Gmail Access)
+
+No sending email, no writing.
+
+Scopes:
+
+Read-only Gmail access
+
+Basic user profile
+
+Why:
+
+Users trust read-only
+
+Makes onboarding frictionless
+
+Avoids privacy fear
+
+8️⃣ Backend API (Email Insights API)
+
+Endpoints for the sidebar & digest.
+
+Core endpoints:
+
+/summary/today
+
+/emails/important
+
+/emails/followups
+
+/emails/noise
+
+/digest/today
+
+/user/preferences
+
+Light caching (Redis or memory)
+9️⃣ User Preferences (Lightweight)
+
+Small settings menu inside sidebar.
+
+Options:
+
+Digest time
+
+Noise definition
+
+Follow-up age threshold (e.g., 2 days)
+
+Collapse panel by default (yes/no)
+
+🔟 Event Triggers & Notification Layer (MVP-lite)
+
+Not a full notification system.
+
+Triggers:
+
+Send Daily Digest
+
+Refresh when Gmail tab opens
+
+Manual “Refresh Insights” button in sidebar
+
+✨ Optional (High Impact, Low Cost) MVP Extras
+
+Choose if time permits:
+
+⭐ 1. “Important Sender Memory”
+
+Mark senders as always-important (boss, clients, family).
+
+⭐ 2. Smart CC Detector
+
+If you’re in CC only → mark as FYI automatically.
+
+⭐ 3. Batch Actions
+
+Mark all noise as read
+
+Archive all promos
+
+Pin important emails
+
+⭐ 4. One-click “Focus Mode”
+
+Show ONLY:
+
+important
+
+follow-up
+for distraction-free mode.
+
+❌ MVP Features to Avoid (until v2)
+
+These slow you down and provide little incremental value early:
+
+AI-generated email replies
+
+Email sending
+
+Auto-archiving rules
+
+Smart scheduling
+
+AI-driven “rewrite this email”
+
+Multiple accounts support
+
+Outlook integrations
+
+Team shared inbox
+
+Meeting notetaker integration
+
+CRM integrations
+These can come later — not MVP.
+
+🧨 TL;DR — FINAL MVP FEATURE SET
+
+Here is your 1-screen summary:
+
+🟩 MUST-HAVE (launch)
+Sidebar panel (right side, collapsible)
+Important emails list
+Follow-ups list
+Noise grouping
+Daily morning digest
+Gmail OAuth (read-only)
+Backend email classifier
+Digest builder
+API endpoints
+Preferences panel
+
+🟨 NICE-HAVE (if time permits)
+Important sender memory
+Smart CC/FYI detection
+Archive-all-noise button
+Focus mode
+
+🟥 NOT FOR MVP
+AI reply drafting
+Sending email
+Meeting assistant
+Multi-account
+Enterprise features
