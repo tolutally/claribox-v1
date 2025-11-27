@@ -1,0 +1,69 @@
+{
+  "name": "claribox",
+  "version": "1.0.0",
+  "description": "A Gmail sidebar extension that shows only what matters in your inbox",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "extension",
+    "shared"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:backend && npm run install:extension && npm run install:shared",
+    "install:backend": "cd backend && npm install",
+    "install:extension": "cd extension && npm install", 
+    "install:shared": "cd shared && npm install",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:extension\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:extension": "cd extension && npm run dev",
+    "build": "npm run build:shared && npm run build:backend && npm run build:extension",
+    "build:backend": "cd backend && npm run build",
+    "build:extension": "cd extension && npm run build",
+    "build:shared": "cd shared && npm run build",
+    "test": "npm run test:backend && npm run test:extension && npm run test:shared",
+    "test:backend": "cd backend && npm run test",
+    "test:extension": "cd extension && npm run test",
+    "test:shared": "cd shared && npm run test",
+    "lint": "npm run lint:backend && npm run lint:extension && npm run lint:shared",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:extension": "cd extension && npm run lint", 
+    "lint:shared": "cd shared && npm run lint",
+    "format": "npm run format:backend && npm run format:extension && npm run format:shared",
+    "format:backend": "cd backend && npm run format",
+    "format:extension": "cd extension && npm run format",
+    "format:shared": "cd shared && npm run format",
+    "clean": "rm -rf backend/dist && rm -rf backend/node_modules && rm -rf extension/dist && rm -rf extension/node_modules && rm -rf shared/dist && rm -rf shared/node_modules && rm -rf node_modules",
+    "setup": "npm run install:all && npm run db:generate && npm run build:shared",
+    "db:generate": "cd backend && npm run db:generate",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:reset": "cd backend && npm run db:reset",
+    "db:seed": "cd backend && npm run db:seed",
+    "db:studio": "cd backend && npm run db:studio"
+  },
+  "keywords": ["gmail", "email", "productivity", "chrome-extension", "sidebar"],
+  "author": "Claribox Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

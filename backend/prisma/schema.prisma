@@ -1,0 +1,135 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                      String                    @id @default(uuid())
+  googleUserId            String                    @unique
+  email                   String                    @unique
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  onboardedAt             DateTime?
+  
+  // Relations
+  accountConnections      GoogleAccountConnection[]
+  emailThreads            EmailThread[]
+  emailInsights           EmailInsight[]
+  dailyDigests            DailyDigest[]
+  preferences             UserPreferences?
+
+  @@map("users")
+}
+
+model GoogleAccountConnection {
+  id                      String    @id @default(uuid())
+  userId                  String
+  provider                String    @default("google")
+  accessToken             String    // encrypted at rest
+  refreshToken            String    // encrypted at rest  
+  scope                   String
+  tokenType               String
+  expiryDate              DateTime
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  
+  // Relations
+  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("google_account_connections")
+}
+
+model EmailThread {
+  id                      String        @id @default(uuid())
+  userId                  String
+  gmailThreadId           String
+  lastMessageId           String
+  subject                 String
+  participants            String[]      // Array of email addresses
+  lastTimestamp           DateTime
+  lastSnippet             String
+  lastFrom                String
+  lastTo                  String[]      // Array of email addresses
+  lastCc                  String[]      // Array of email addresses
+  lastLabels              String[]      // Array of Gmail labels
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  
+  // Relations
+  user                    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  insights                EmailInsight[]
+
+  @@unique([userId, gmailThreadId])
+  @@map("email_threads")
+}
+
+model EmailInsight {
+  id                      String      @id @default(uuid())
+  userId                  String
+  threadId                String
+  gmailThreadId           String
+  category                EmailCategory
+  importanceScore         Float       @db.Real // 0.0-1.0
+  requiresReply           Boolean     @default(false)
+  waitingForReply         Boolean     @default(false)
+  hasDeadline             Boolean     @default(false)
+  deadlineAt              DateTime?
+  lastEvaluatedAt         DateTime    @default(now())
+  
+  // Relations
+  user                    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  thread                  EmailThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, threadId])
+  @@map("email_insights")
+}
+
+model DailyDigest {
+  id                      String    @id @default(uuid())
+  userId                  String
+  date                    String    // YYYY-MM-DD format in user timezone
+  generatedAt             DateTime  @default(now())
+  importantThreadIds      String[]  // Array of thread IDs
+  followUpThreadIds       String[]  // Array of thread IDs
+  missedImportantThreadIds String[] // Array of thread IDs
+  noiseCount              Int       @default(0)
+  emailSent               Boolean   @default(false)
+  emailSentAt             DateTime?
+  
+  // Relations
+  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@map("daily_digests")
+}
+
+model UserPreferences {
+  id                      String    @id @default(uuid())
+  userId                  String    @unique
+  timezone                String    @default("UTC")
+  digestTimeLocal         String    @default("08:00") // HH:MM format
+  followUpThresholdDays   Int       @default(2)
+  noiseLabels             String[]  // Additional labels to consider as noise
+  autoCollapseSidebar     Boolean   @default(false)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  
+  // Relations
+  user                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
+}
+
+enum EmailCategory {
+  IMPORTANT
+  FOLLOW_UP
+  NOISE
+  FYI
+}

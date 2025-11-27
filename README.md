@@ -1,7 +1,7 @@
 📬 Claribox— MVP
 A Gmail sidebar extension that shows only what matters in your inbox.
 
-Inbox Clarity is a Chrome extension + backend service that helps users reduce email overwhelm by:
+Claribox is a Chrome extension + backend service that helps users reduce email overwhelm by:
 
 Highlighting important emails
 
@@ -108,6 +108,7 @@ CExtension ───────────▶│ REST API     │
                      └─────────────────┘
 
 🧩 Components
+
 1. Chrome Extension
 
 Manifest V3
@@ -268,13 +269,16 @@ Data minimization: store metadata & derived insights only
 GDPR-friendly design
 
 🧪 Local Development Setup
+
 1. Clone repo
-git clone https://github.com/your-org/inbox-clarity.git
+git clone <https://github.com/your-org/inbox-clarity.git>
 cd inbox-clarity
 
 2. Install dependencies
 npm install
-# or
+
+# Or for Python:
+
 pip install -r requirements.txt
 
 3. Set environment variables
@@ -289,7 +293,9 @@ SENDGRID_KEY=
 
 4. Start backend API
 npm run dev
-# or
+
+# Or for Python:
+
 uvicorn app.main:app --reload
 
 5. Load Chrome Extension

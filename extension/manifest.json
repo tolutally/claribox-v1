@@ -1,0 +1,45 @@
+{
+  "manifest_version": 3,
+  "name": "Claribox",
+  "description": "Gmail sidebar extension that shows only what matters in your inbox",
+  "version": "1.0.0",
+  "permissions": [
+    "storage",
+    "identity",
+    "activeTab",
+    "sidePanel",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*",
+    "https://api.claribox.app/*",
+    "http://localhost:3000/*"
+  ],
+  "side_panel": {
+    "default_path": "entrypoints/sidebar/sidebar.html"
+  },
+  "action": {
+    "default_title": "Claribox"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mail.google.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}
